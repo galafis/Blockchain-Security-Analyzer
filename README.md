@@ -1,11 +1,11 @@
-# Blockchain-Security-Analyzer
+# Blockchain Security Analyzer
 
-![Blockchain Security Analyzer Hero Image](hero_image.png)
+
 
 ## English
 
 ### Overview
-Advanced Blockchain-Security-Analyzer with comprehensive functionality and modern technology stack. Features multiple programming languages, interactive web interfaces, and advanced analytics capabilities for professional-grade solutions.
+Blockchain Security Analyzer is a Python-based tool, built with the Flask framework, designed for static analysis of Solidity smart contracts. It identifies common security vulnerability patterns in contracts, helping developers build more secure decentralized applications (dApps).
 
 ### Author
 **Gabriel Demetrios Lafis**
@@ -14,151 +14,124 @@ Advanced Blockchain-Security-Analyzer with comprehensive functionality and moder
 - GitHub: [galafis](https://github.com/galafis)
 
 ### Technologies Used
-- **Backend**: Python, Flask, FastAPI, SQLite
+- **Backend**: Python, Flask
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Analytics**: R, ggplot2, dplyr, statistical modeling
-- **Styling**: CSS Grid, Flexbox, animations, responsive design
-- **Modern Features**: Async/await, Web APIs, ES6 classes
-- **Data Processing**: pandas, numpy, scikit-learn
-- **Visualization**: Interactive charts, real-time dashboards
+- **Static Analysis**: Regular Expressions (re module)
 
 ### Features
 
 #### Core Functionality
-- **Advanced Processing**: High-performance algorithms and data processing
-- **Real-time Analytics**: Live data analysis and visualization
-- **Interactive Interface**: Modern web interface with responsive design
-- **Statistical Analysis**: Comprehensive R-based analytics and reporting
-- **Scalable Architecture**: Built for enterprise-level performance
+- **Static Analysis**: Identifies common security vulnerabilities in Solidity smart contracts.
+- **RESTful API**: Provides a simple API to submit contract code and receive analysis reports.
 
-#### Web Interface
-- **Modern UI**: HTML5 semantic markup with accessibility features
-- **Responsive Design**: CSS3 with Grid, Flexbox, and mobile optimization
-- **Interactive Elements**: JavaScript ES6+ with modern web APIs
-- **Real-time Updates**: Dynamic content and live data visualization
-- **Professional Styling**: Custom CSS animations and transitions
+#### Detected Vulnerabilities
+The analyzer currently identifies the following categories of vulnerabilities:
 
-#### Analytics & Reporting
-- **R Integration**: Advanced statistical analysis and data visualization
-- **Data Processing**: Automated data cleaning and transformation
-- **Visualization**: Interactive charts and comprehensive dashboards
-- **Performance Metrics**: Real-time monitoring and analytics
-- **Export Options**: Multiple format support for reports and data
+*   **Potential Reentrancy**: Detects patterns of external calls (`call.value`, `send`, `transfer`) that could lead to reentrancy attacks if not implemented correctly.
+*   **Potential Integer Overflow/Underflow**: Identifies arithmetic operations on integer variables (`uint`, `int`) that do not use SafeMath libraries, potentially resulting in integer overflow or underflow.
+*   **Potential Timestamp Dependency**: Flags the use of `block.timestamp`, which can be manipulated by miners, compromising randomness or event timing.
+*   **Potential Hardcoded Gas Limit**: Warns about the use of fixed gas limits (`gas: X`), which can cause transaction failures if gas costs change.
 
 ### Installation
 
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
+    cd Blockchain-Security-Analyzer
+    ```
+2.  Install dependencies:
+    ```bash
+    pip install -r src/requirements.txt
+    ```
+
+### Running the Application
+
+To start the Flask server, run:
+
 ```bash
-# Clone the repository
-git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
-cd Blockchain-Security-Analyzer
-
-# Python setup
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-# R setup (install required packages)
-Rscript -e "install.packages(c('ggplot2', 'dplyr', 'corrplot', 'plotly'))"
-
-# Run the application
-python app.py
+python3 src/app.py
 ```
 
-### Web Interface Usage
+The server will be available at `http://127.0.0.1:5000/`.
 
-1. **Start the Application**
-   ```bash
-   python app.py
-   # Open http://localhost:5000 in your browser
-   ```
+### API Endpoints
 
-2. **Access Web Interface**
-   - Open `index.html` in your browser for the frontend interface
-   - Interactive dashboard with real-time functionality
-   - Responsive design works on desktop and mobile devices
+*   **GET /**: Returns general project information and available endpoints.
+*   **GET /api/status**: Returns the current API status.
+*   **POST /api/analyze**: Accepts Solidity contract source code in the request body (JSON with the `code` key) and returns an array of detected vulnerabilities.
 
-3. **Run Analytics**
-   ```r
-   # Load R analytics
-   source('analytics.R')
-   
-   # Create analyzer instance
-   analyzer <- DataAnalyzer$new()
-   
-   # Load and analyze data
-   analyzer$load_data('data.csv')
-   analyzer$analyze()
-   analyzer$generate_report()
-   ```
-
-### Workflow Diagram
-
-```mermaid
-graph TD
-    A[Start] --> B{Load Data?}
-    B -- Yes --> C[Process Data]
-    C --> D{Analyze Data?}
-    B -- No --> D
-    D -- Yes --> E[Generate Report]
-    D -- No --> F[End]
-    E --> F
-```
+    Example POST request:
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -d \
+    '{"code": "function vulnerable() public payable { (bool success, ) = msg.sender.call{value: msg.value}(\"\"); require(success); }"}' \
+    http://127.0.0.1:5000/api/analyze
+    ```
 
 ### File Structure
 
 ```
 Blockchain-Security-Analyzer/
-├── app.py              # Main Python application
-├── requirements.txt    # Python dependencies
-├── index.html         # Web interface
-├── styles.css         # Modern CSS3 styling
-├── app.js            # JavaScript functionality
-├── analytics.R       # R statistical analysis
-├── README.md         # This documentation
-└── data/             # Data files and samples
+├── src/
+│   ├── app.py
+│   └── requirements.txt
+├── tests/
+│   └── test_app.py
+├── docs/
+├── config/
+├── .gitignore
+├── LICENSE
+├── README.md
+└── CONTRIBUTING.md
 ```
 
-### API Endpoints
+*   `src/`: Contains the main Flask application source code (`app.py`) and its dependencies (`requirements.txt`).
+*   `tests/`: Contains unit tests for the application (`test_app.py`).
+*   `docs/`: Intended for additional documentation and GitHub Pages assets.
+*   `config/`: Intended for configuration files.
 
-```python
-# Main application endpoints
-GET  /                 # Web interface
-POST /api/process      # Data processing
-GET  /api/analytics    # Analytics results
-POST /api/upload       # File upload
-GET  /api/status       # System status
+### Testing
+
+To run unit tests, navigate to the project root directory and execute:
+
+```bash
+python3 -m unittest tests/test_app.py
 ```
 
-### Configuration
+### Workflow Diagram
 
-```python
-# config.py
-APP_CONFIG = {
-    'debug': True,
-    'host': '0.0.0.0',
-    'port': 5000,
-    'max_file_size': '16MB'
-}
+![Workflow Diagram](docs/workflow_diagram.png)
 
-ANALYTICS_CONFIG = {
-    'enable_r_integration': True,
-    'auto_visualization': True,
-    'export_formats': ['json', 'csv', 'pdf']
-}
+```mermaid
+graph TD
+    A[Start] --> B{Submit Contract Code}
+    B --> C[Analyze Contract]
+    C --> D{Generate Report}
+    D --> E[Return Findings]
+    E --> F[End]
 ```
 
-### Performance Features
-- **Multi-threading**: Parallel processing for improved performance
-- **Caching**: Intelligent caching for faster response times
-- **Memory Optimization**: Efficient memory usage and management
-- **Scalability**: Horizontal scaling support for enterprise use
+### Contribution
+Contributions are welcome! Please follow the guidelines in `CONTRIBUTING.md` to submit pull requests or report issues.
+
+### License
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
+### GitHub Pages
+[View on GitHub Pages](https://galafis.github.io/Blockchain-Security-Analyzer/)
+
+### Governance
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Contribution Guidelines](CONTRIBUTING.md)
+
+### Contact
+For questions or support, please contact via the email or LinkedIn mentioned above.
 
 ---
 
 ## Português
 
 ### Visão Geral
-Blockchain-Security-Analyzer avançado com funcionalidade abrangente e stack de tecnologia moderna. Apresenta múltiplas linguagens de programação, interfaces web interativas e capacidades de análise avançadas para soluções de nível profissional.
+O Blockchain Security Analyzer é uma ferramenta desenvolvida em Python, utilizando o framework Flask, para realizar análises estáticas de contratos inteligentes Solidity. Ele foi projetado para identificar padrões comuns de vulnerabilidades de segurança em contratos, ajudando desenvolvedores a criar aplicações descentralizadas (dApps) mais seguras.
 
 ### Autor
 **Gabriel Demetrios Lafis**
@@ -167,82 +140,110 @@ Blockchain-Security-Analyzer avançado com funcionalidade abrangente e stack de 
 - GitHub: [galafis](https://github.com/galafis)
 
 ### Tecnologias Utilizadas
-- **Backend**: Python, Flask, FastAPI, SQLite
+- **Backend**: Python, Flask
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Análises**: R, ggplot2, dplyr, modelagem estatística
-- **Estilização**: CSS Grid, Flexbox, animações, design responsivo
-- **Recursos Modernos**: Async/await, Web APIs, classes ES6
-- **Processamento de Dados**: pandas, numpy, scikit-learn
-- **Visualização**: Gráficos interativos, dashboards em tempo real
+- **Análise Estática**: Expressões Regulares (módulo re)
 
 ### Funcionalidades
 
 #### Funcionalidade Principal
-- **Processamento Avançado**: Algoritmos de alta performance e processamento de dados
-- **Análises em Tempo Real**: Análise e visualização de dados ao vivo
-- **Interface Interativa**: Interface web moderna com design responsivo
-- **Análise Estatística**: Análises abrangentes baseadas em R e relatórios
-- **Arquitetura Escalável**: Construído para performance de nível empresarial
+- **Análise Estática**: Identifica vulnerabilidades de segurança comuns em contratos inteligentes Solidity.
+- **API RESTful**: Fornece uma API simples para submeter o código do contrato e receber relatórios de análise.
+
+#### Vulnerabilidades Detectadas
+Atualmente, o analisador é capaz de identificar as seguintes categorias de vulnerabilidades:
+
+*   **Potencial Reentrancy**: Detecta padrões de chamadas externas (`call.value`, `send`, `transfer`) que podem levar a ataques de reentrancy se não forem implementados corretamente.
+*   **Potencial Integer Overflow/Underflow**: Identifica operações aritméticas em variáveis inteiras (`uint`, `int`) que não utilizam bibliotecas de SafeMath, podendo resultar em overflow ou underflow de inteiros.
+*   **Potencial Dependência de Timestamp**: Sinaliza o uso de `block.timestamp`, que pode ser manipulado por mineradores, comprometendo a aleatoriedade ou a temporização de eventos.
+*   **Potencial Limite de Gás Hardcoded**: Alerta sobre o uso de limites de gás fixos (`gas: X`), que podem causar falhas em transações se os custos de gás mudarem.
 
 ### Instalação
 
+1.  Clone o repositório:
+    ```bash
+    git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
+    cd Blockchain-Security-Analyzer
+    ```
+2.  Instale as dependências:
+    ```bash
+    pip install -r src/requirements.txt
+    ```
+
+### Executando a Aplicação
+
+Para iniciar o servidor Flask, execute:
+
 ```bash
-# Clonar o repositório
-git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
-cd Blockchain-Security-Analyzer
-
-# Configuração Python
-python -m venv venv
-source venv/bin/activate  # No Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-# Configuração R (instalar pacotes necessários)
-Rscript -e "install.packages(c('ggplot2', 'dplyr', 'corrplot', 'plotly'))"
-
-# Executar a aplicação
-python app.py
+python3 src/app.py
 ```
 
-### Uso da Interface Web
+O servidor estará disponível em `http://127.0.0.1:5000/`.
 
-1. **Iniciar a Aplicação**
-   ```bash
-   python app.py
-   # Abrir http://localhost:5000 no navegador
-   ```
+### Endpoints da API
 
-2. **Acessar Interface Web**
-   - Abrir `index.html` no navegador para a interface frontend
-   - Dashboard interativo com funcionalidade em tempo real
-   - Design responsivo funciona em desktop e dispositivos móveis
+*   **GET /**: Retorna informações gerais sobre o projeto e os endpoints disponíveis.
+*   **GET /api/status**: Retorna o status atual da API.
+*   **POST /api/analyze**: Aceita o código-fonte de um contrato Solidity no corpo da requisição (JSON com a chave `code`) e retorna um array de vulnerabilidades detectadas.
+
+    Exemplo de requisição POST:
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -d \
+    '{"code": "function vulnerable() public payable { (bool success, ) = msg.sender.call{value: msg.value}(\"\"); require(success); }"}' \
+    http://127.0.0.1:5000/api/analyze
+    ```
+
+## Estrutura do Projeto
+
+```
+Blockchain-Security-Analyzer/
+├── src/
+│   ├── app.py
+│   └── requirements.txt
+├── tests/
+│   └── test_app.py
+├── docs/
+├── config/
+├── .gitignore
+├── LICENSE
+├── README.md
+└── CONTRIBUTING.md
+```
+
+*   `src/`: Contém o código-fonte principal da aplicação Flask (`app.py`) e suas dependências (`requirements.txt`).
+*   `tests/`: Contém os testes unitários para a aplicação (`test_app.py`).
+*   `docs/`: Destinado a documentação adicional e ativos para GitHub Pages.
+*   `config/`: Destinado a arquivos de configuração.
+
+### Testes
+
+Para executar os testes unitários, navegue até o diretório raiz do projeto e execute:
+
+```bash
+python3 -m unittest tests/test_app.py
+```
 
 ### Diagrama de Workflow
 
+![Diagrama de Workflow](docs/workflow_diagram.png)
+
 ```mermaid
 graph TD
-    A[Início] --> B{Carregar Dados?}
-    B -- Sim --> C[Processar Dados]
-    C --> D{Analisar Dados?}
-    B -- Não --> D
-    D -- Sim --> E[Gerar Relatório]
-    D -- Não --> F[Fim]
-    E --> F
+    A[Início] --> B{Submeter Código do Contrato}
+    B --> C[Analisar Contrato]
+    C --> D{Gerar Relatório}
+    D --> E[Retornar Descobertas]
+    E --> F[Fim]
 ```
 
-### Recursos de Performance
-- **Multi-threading**: Processamento paralelo para melhor performance
-- **Cache**: Cache inteligente para tempos de resposta mais rápidos
-- **Otimização de Memória**: Uso eficiente de memória e gerenciamento
-- **Escalabilidade**: Suporte a escalonamento horizontal para uso empresarial
+### Contribuição
+Contribuições são bem-vindas! Por favor, siga as diretrizes em `CONTRIBUTING.md` para submeter pull requests ou reportar issues.
 
 ### Licença
-MIT License
+Este projeto está licenciado sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
 ### GitHub Pages
 [Visualizar no GitHub Pages](https://galafis.github.io/Blockchain-Security-Analyzer/)
-
-### Contribuições
-Contribuições são bem-vindas! Por favor, abra uma issue ou envie um pull request.
 
 ### Governança
 - [Código de Conduta](CODE_OF_CONDUCT.md)

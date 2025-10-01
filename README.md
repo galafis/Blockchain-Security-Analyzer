@@ -1,5 +1,7 @@
 # Blockchain-Security-Analyzer
 
+![Blockchain Security Analyzer Hero Image](hero_image.png)
+
 ## English
 
 ### Overview
@@ -56,7 +58,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # R setup (install required packages)
-Rscript -e "install.packages(c('ggplot2', 'dplyr', 'corrplot', 'plotly'))"
+Rscript -e "install.packages(c(\'ggplot2\', \'dplyr\', \'corrplot\', \'plotly\'))"
 
 # Run the application
 python app.py
@@ -78,13 +80,13 @@ python app.py
 3. **Run Analytics**
    ```r
    # Load R analytics
-   source('analytics.R')
+   source(\'analytics.R\')
    
    # Create analyzer instance
    analyzer <- DataAnalyzer$new()
    
    # Load and analyze data
-   analyzer$load_data('data.csv')
+   analyzer$load_data(\'data.csv\')
    analyzer$analyze()
    analyzer$generate_report()
    ```
@@ -119,16 +121,16 @@ GET  /api/status       # System status
 ```python
 # config.py
 APP_CONFIG = {
-    'debug': True,
-    'host': '0.0.0.0',
-    'port': 5000,
-    'max_file_size': '16MB'
+    \'debug\': True,
+    \'host\': \'0.0.0.0\',
+    \'port\': 5000,
+    \'max_file_size\': \'16MB\'
 }
 
 ANALYTICS_CONFIG = {
-    'enable_r_integration': True,
-    'auto_visualization': True,
-    'export_formats': ['json', 'csv', 'pdf']
+    \'enable_r_integration\': True,
+    \'auto_visualization\': True,
+    \'export_formats\': [\'json\', \'csv\', \'pdf\']
 }
 ```
 
@@ -182,7 +184,7 @@ source venv/bin/activate  # No Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Configuração R (instalar pacotes necessários)
-Rscript -e "install.packages(c('ggplot2', 'dplyr', 'corrplot', 'plotly'))"
+Rscript -e "install.packages(c(\'ggplot2\', \'dplyr\', \'corrplot\', \'plotly\'))"
 
 # Executar a aplicação
 python app.py
@@ -210,28 +212,15 @@ python app.py
 ### Licença
 MIT License
 
+### GitHub Pages
+[Visualizar no GitHub Pages](https://galafis.github.io/Blockchain-Security-Analyzer/)
+
 ### Contribuições
 Contribuições são bem-vindas! Por favor, abra uma issue ou envie um pull request.
 
+### Governança
+- [Código de Conduta](CODE_OF_CONDUCT.md)
+- [Diretrizes de Contribuição](CONTRIBUTING.md)
+
 ### Contato
 Para dúvidas ou suporte, entre em contato através do email ou LinkedIn mencionados acima.
-
-
-## 📋 Descrição
-
-Descreva aqui o conteúdo desta seção.
-
-
-## 📦 Instalação
-
-Descreva aqui o conteúdo desta seção.
-
-
-## 💻 Uso
-
-Descreva aqui o conteúdo desta seção.
-
-
-## 📄 Licença
-
-Descreva aqui o conteúdo desta seção.

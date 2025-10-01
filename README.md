@@ -58,7 +58,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # R setup (install required packages)
-Rscript -e "install.packages(c(\'ggplot2\', \'dplyr\', \'corrplot\', \'plotly\'))"
+Rscript -e "install.packages(c('ggplot2', 'dplyr', 'corrplot', 'plotly'))"
 
 # Run the application
 python app.py
@@ -80,16 +80,29 @@ python app.py
 3. **Run Analytics**
    ```r
    # Load R analytics
-   source(\'analytics.R\')
+   source('analytics.R')
    
    # Create analyzer instance
    analyzer <- DataAnalyzer$new()
    
    # Load and analyze data
-   analyzer$load_data(\'data.csv\')
+   analyzer$load_data('data.csv')
    analyzer$analyze()
    analyzer$generate_report()
    ```
+
+### Workflow Diagram
+
+```mermaid
+graph TD
+    A[Start] --> B{Load Data?}
+    B -- Yes --> C[Process Data]
+    C --> D{Analyze Data?}
+    B -- No --> D
+    D -- Yes --> E[Generate Report]
+    D -- No --> F[End]
+    E --> F
+```
 
 ### File Structure
 
@@ -121,16 +134,16 @@ GET  /api/status       # System status
 ```python
 # config.py
 APP_CONFIG = {
-    \'debug\': True,
-    \'host\': \'0.0.0.0\',
-    \'port\': 5000,
-    \'max_file_size\': \'16MB\'
+    'debug': True,
+    'host': '0.0.0.0',
+    'port': 5000,
+    'max_file_size': '16MB'
 }
 
 ANALYTICS_CONFIG = {
-    \'enable_r_integration\': True,
-    \'auto_visualization\': True,
-    \'export_formats\': [\'json\', \'csv\', \'pdf\']
+    'enable_r_integration': True,
+    'auto_visualization': True,
+    'export_formats': ['json', 'csv', 'pdf']
 }
 ```
 
@@ -184,7 +197,7 @@ source venv/bin/activate  # No Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Configuração R (instalar pacotes necessários)
-Rscript -e "install.packages(c(\'ggplot2\', \'dplyr\', \'corrplot\', \'plotly\'))"
+Rscript -e "install.packages(c('ggplot2', 'dplyr', 'corrplot', 'plotly'))"
 
 # Executar a aplicação
 python app.py
@@ -202,6 +215,19 @@ python app.py
    - Abrir `index.html` no navegador para a interface frontend
    - Dashboard interativo com funcionalidade em tempo real
    - Design responsivo funciona em desktop e dispositivos móveis
+
+### Diagrama de Workflow
+
+```mermaid
+graph TD
+    A[Início] --> B{Carregar Dados?}
+    B -- Sim --> C[Processar Dados]
+    C --> D{Analisar Dados?}
+    B -- Não --> D
+    D -- Sim --> E[Gerar Relatório]
+    D -- Não --> F[Fim]
+    E --> F
+```
 
 ### Recursos de Performance
 - **Multi-threading**: Processamento paralelo para melhor performance
@@ -224,3 +250,4 @@ Contribuições são bem-vindas! Por favor, abra uma issue ou envie um pull requ
 
 ### Contato
 Para dúvidas ou suporte, entre em contato através do email ou LinkedIn mencionados acima.
+

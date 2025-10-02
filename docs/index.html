@@ -3,75 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockchain Security Analyzer - Gabriel Demetrios Lafis</title>
+    <title>Blockchain Security Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="header">
+    <header>
         <div class="container">
             <h1>Blockchain Security Analyzer</h1>
-            <p>Analisador de segurança para contratos inteligentes Solidity</p>
         </div>
     </header>
-    
-    <main class="main">
+    <nav>
         <div class="container">
-            <section class="hero">
-                <h2>Tecnologias Utilizadas</h2>
-                <div class="tech-grid">
-                    <div class="tech-card">
-                        <h3>Python</h3>
-                        <p>Backend da aplicação Flask</p>
-                    </div>
-                    <div class="tech-card">
-                        <h3>Flask</h3>
-                        <p>Framework web para a API</p>
-                    </div>
-                    <div class="tech-card">
-                        <h3>Expressões Regulares</h3>
-                        <p>Análise estática de código Solidity</p>
-                    </div>
-                    <div class="tech-card">
-                        <h3>HTML5/CSS3</h3>
-                        <p>Interface de usuário simples</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="features">
-                <h2>Vulnerabilidades Detectadas</h2>
-                <div class="feature-list">
-                    <div class="feature">
-                        <h4>Potencial Reentrancy</h4>
-                        <p>Identifica chamadas externas que podem levar a ataques de reentrancy.</p>
-                    </div>
-                    <div class="feature">
-                        <h4>Potencial Integer Overflow/Underflow</h4>
-                        <p>Detecta operações aritméticas sem SafeMath.</p>
-                    </div>
-                    <div class="feature">
-                        <h4>Potencial Dependência de Timestamp</h4>
-                        <p>Sinaliza o uso de block.timestamp.</p>
-                    </div>
-                    <div class="feature">
-                        <h4>Potencial Limite de Gás Hardcoded</h4>
-                        <p>Alerta sobre limites de gás fixos.</p>
-                    </div>
-                </div>
-            </section>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#api">API</a></li>
+                <li><a href="#documentation">Documentation</a></li>
+                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer" target="_blank">GitHub Repo</a></li>
+            </ul>
         </div>
-    </main>
-    
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Gabriel Demetrios Lafis. Todos os direitos reservados.</p>
-            <div class="contact">
-                <a href="mailto:gabrieldemetrios@gmail.com">Email</a>
-                <a href="https://linkedin.com/in/gabriel-demetrios-lafis-62197711b">LinkedIn</a>
-                <a href="https://github.com/galafis">GitHub</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Análise Estática de Contratos Inteligentes Solidity</h2>
+            <p>Identifique vulnerabilidades de segurança comuns em seus contratos inteligentes antes que se tornem um problema.</p>
+            <a href="#features" class="btn">Saiba Mais</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <section id="overview" class="section">
+            <h3>Overview</h3>
+            <p>O <strong>Blockchain Security Analyzer</strong> é uma ferramenta baseada em Python, construída com o framework Flask, projetada para análise estática de contratos inteligentes Solidity. Ele identifica padrões comuns de vulnerabilidades de segurança em contratos, ajudando desenvolvedores a construir aplicações descentralizadas (dApps) mais seguras.</p>
+            <p>Desenvolvido por <strong>Gabriel Demetrios Lafis</strong>.</p>
+        </section>
+
+        <section id="features" class="section">
+            <h3>Features</h3>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>Análise Estática</h4>
+                    <p>Identifica vulnerabilidades de segurança comuns em contratos inteligentes Solidity.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>API RESTful</h4>
+                    <p>Fornece uma API simples para submeter o código do contrato e receber relatórios de análise.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Detecção de Reentrancy</h4>
+                    <p>Detecta padrões de chamadas externas que podem levar a ataques de reentrancy.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Detecção de Integer Overflow/Underflow</h4>
+                    <p>Identifica operações aritméticas que podem resultar em overflow ou underflow de inteiros.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Detecção de Timestamp Dependency</h4>
+                    <p>Sinaliza o uso de <code>block.timestamp</code>, que pode ser manipulado por mineradores.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Detecção de Hardcoded Gas Limit</h4>
+                    <p>Alerta sobre o uso de limites de gás fixos que podem causar falhas em transações.</p>
+                </div>
             </div>
+        </section>
+
+        <section id="api" class="section">
+            <h3>API Endpoints</h3>
+            <p>A API do Blockchain Security Analyzer oferece os seguintes endpoints:</p>
+            <ul>
+                <li><strong>GET /</strong>: Retorna informações gerais sobre o projeto e os endpoints disponíveis.</li>
+                <li><strong>GET /api/status</strong>: Retorna o status atual da API.</li>
+                <li><strong>POST /api/analyze</strong>: Aceita o código-fonte de um contrato Solidity (JSON com a chave <code>code</code>) e retorna um array de vulnerabilidades detectadas.</li>
+            </ul>
+            <p>Para mais detalhes sobre como usar a API, consulte a <a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/README.md#api-endpoints" target="_blank">documentação no GitHub</a>.</p>
+        </section>
+
+        <section id="documentation" class="section">
+            <h3>Documentation</h3>
+            <p>Para informações detalhadas sobre instalação, execução e contribuição, por favor, visite:</p>
+            <ul>
+                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/README.md" target="_blank">README.md Completo</a></li>
+                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/CONTRIBUTING.md" target="_blank">Diretrizes de Contribuição</a></li>
+                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/LICENSE" target="_blank">Licença do Projeto (MIT)</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Blockchain Security Analyzer. Desenvolvido por <a href="https://github.com/galafis" target="_blank">Gabriel Demetrios Lafis</a>.</p>
         </div>
     </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll("nav a[href^=\"#\"]").forEach(anchor => {
+            anchor.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute("href")).scrollIntoView({
+                    behavior: "smooth"
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-

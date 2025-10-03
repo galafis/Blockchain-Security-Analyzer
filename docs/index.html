@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockchain Security Analyzer</title>
+    <title>Blockchain Security Analyzer - Gabriel Demetrios Lafis</title>
+    <link rel="icon" href="https://github.com/galafis/Blockchain-Security-Analyzer/raw/main/hero-image.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -16,10 +17,11 @@
     <nav>
         <div class="container">
             <ul>
-                <li><a href="#overview">Overview</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#api">API</a></li>
-                <li><a href="#documentation">Documentation</a></li>
+                <li><a href="#overview-en">Overview (EN)</a></li>
+                <li><a href="#features-en">Features (EN)</a></li>
+                <li><a href="#usage-example">Usage Example</a></li>
+                <li><a href="#overview-pt">Visão Geral (PT)</a></li>
+                <li><a href="#features-pt">Funcionalidades (PT)</a></li>
                 <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer" target="_blank">GitHub Repo</a></li>
             </ul>
         </div>
@@ -27,21 +29,65 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h2>Análise Estática de Contratos Inteligentes Solidity</h2>
-            <p>Identifique vulnerabilidades de segurança comuns em seus contratos inteligentes antes que se tornem um problema.</p>
-            <a href="#features" class="btn">Saiba Mais</a>
+            <h2>Advanced Static Analysis for Solidity Smart Contracts</h2>
+            <p>Identify common security vulnerabilities in your smart contracts before they become critical issues. Developed by Gabriel Demetrios Lafis.</p>
+            <a href="#usage-example" class="btn">Try it Now</a>
         </div>
     </section>
 
     <div class="container">
-        <section id="overview" class="section">
-            <h3>Overview</h3>
-            <p>O <strong>Blockchain Security Analyzer</strong> é uma ferramenta baseada em Python, construída com o framework Flask, projetada para análise estática de contratos inteligentes Solidity. Ele identifica padrões comuns de vulnerabilidades de segurança em contratos, ajudando desenvolvedores a construir aplicações descentralizadas (dApps) mais seguras.</p>
+        <section id="overview-en" class="section">
+            <h3>Overview (English)</h3>
+            <p>The <strong>Blockchain Security Analyzer</strong> is a Python-based tool, built with the Flask framework, designed for static analysis of Solidity smart contracts. It identifies common security vulnerability patterns in contracts, helping developers build more secure decentralized applications (dApps).</p>
+            <p>Developed by <strong>Gabriel Demetrios Lafis</strong>.</p>
+        </section>
+
+        <section id="features-en" class="section">
+            <h3>Features (English)</h3>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>Static Analysis</h4>
+                    <p>Identifies common security vulnerabilities in Solidity smart contracts.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>RESTful API</h4>
+                    <p>Provides a simple API to submit contract code and receive analysis reports.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Reentrancy Detection</h4>
+                    <p>Detects patterns of external calls that could lead to reentrancy attacks.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Integer Overflow/Underflow Detection</h4>
+                    <p>Identifies arithmetic operations that can result in integer overflow or underflow.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Timestamp Dependency Detection</h4>
+                    <p>Flags the use of <code>block.timestamp</code>, which can be manipulated by miners.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Hardcoded Gas Limit Detection</h4>
+                    <p>Warns about the use of fixed gas limits that can cause transaction failures.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="usage-example" class="section">
+            <h3>Usage Example</h3>
+            <p>Paste your Solidity smart contract code below and click "Analyze" to see potential vulnerabilities.</p>
+            <textarea id="contractCode" placeholder="Paste your Solidity contract code here..." rows="10"></textarea>
+            <button id="analyzeButton" class="btn">Analyze Contract</button>
+            <div id="analysisResults" class="analysis-results"></div>
+        </section>
+
+        <section id="overview-pt" class="section">
+            <h3>Visão Geral (Português)</h3>
+            <p>O <strong>Blockchain Security Analyzer</strong> é uma ferramenta desenvolvida em Python, utilizando o framework Flask, para realizar análises estáticas de contratos inteligentes Solidity. Ele foi projetado para identificar padrões comuns de vulnerabilidades de segurança em contratos, ajudando desenvolvedores a criar aplicações descentralizadas (dApps) mais seguras.</p>
             <p>Desenvolvido por <strong>Gabriel Demetrios Lafis</strong>.</p>
         </section>
 
-        <section id="features" class="section">
-            <h3>Features</h3>
+        <section id="features-pt" class="section">
+            <h3>Funcionalidades (Português)</h3>
             <div class="features-grid">
                 <div class="feature-item">
                     <h4>Análise Estática</h4>
@@ -57,7 +103,7 @@
                 </div>
                 <div class="feature-item">
                     <h4>Detecção de Integer Overflow/Underflow</h4>
-                    <p>Identifica operações aritméticas que podem resultar em overflow ou underflow de inteiros.</p>
+                    <p>Identifica operações aritméticas que podem resultar em integer overflow ou underflow.</p>
                 </div>
                 <div class="feature-item">
                     <h4>Detecção de Timestamp Dependency</h4>
@@ -70,45 +116,70 @@
             </div>
         </section>
 
-        <section id="api" class="section">
-            <h3>API Endpoints</h3>
-            <p>A API do Blockchain Security Analyzer oferece os seguintes endpoints:</p>
-            <ul>
-                <li><strong>GET /</strong>: Retorna informações gerais sobre o projeto e os endpoints disponíveis.</li>
-                <li><strong>GET /api/status</strong>: Retorna o status atual da API.</li>
-                <li><strong>POST /api/analyze</strong>: Aceita o código-fonte de um contrato Solidity (JSON com a chave <code>code</code>) e retorna um array de vulnerabilidades detectadas.</li>
-            </ul>
-            <p>Para mais detalhes sobre como usar a API, consulte a <a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/README.md#api-endpoints" target="_blank">documentação no GitHub</a>.</p>
-        </section>
-
         <section id="documentation" class="section">
-            <h3>Documentation</h3>
+            <h3>Documentation / Documentação</h3>
+            <p>For detailed information on installation, execution, and contribution, please visit:</p>
             <p>Para informações detalhadas sobre instalação, execução e contribuição, por favor, visite:</p>
             <ul>
-                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/README.md" target="_blank">README.md Completo</a></li>
-                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/CONTRIBUTING.md" target="_blank">Diretrizes de Contribuição</a></li>
-                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/LICENSE" target="_blank">Licença do Projeto (MIT)</a></li>
+                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/README.md" target="_blank">Full README.md / README.md Completo</a></li>
+                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/CONTRIBUTING.md" target="_blank">Contribution Guidelines / Diretrizes de Contribuição</a></li>
+                <li><a href="https://github.com/galafis/Blockchain-Security-Analyzer/blob/main/LICENSE" target="_blank">Project License (MIT) / Licença do Projeto (MIT)</a></li>
             </ul>
         </section>
     </div>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Blockchain Security Analyzer. Desenvolvido por <a href="https://github.com/galafis" target="_blank">Gabriel Demetrios Lafis</a>.</p>
+            <p>&copy; 2025 Blockchain Security Analyzer. Developed by <a href="https://github.com/galafis" target="_blank">Gabriel Demetrios Lafis</a>.</p>
+            <p>All rights reserved. | Todos os direitos reservados.</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
         document.querySelectorAll("nav a[href^=\"#\"]").forEach(anchor => {
             anchor.addEventListener("click", function (e) {
                 e.preventDefault();
-
                 document.querySelector(this.getAttribute("href")).scrollIntoView({
                     behavior: "smooth"
                 });
             });
         });
+
+        document.getElementById("analyzeButton").addEventListener("click", async () => {
+            const contractCode = document.getElementById("contractCode").value;
+            const resultsDiv = document.getElementById("analysisResults");
+            resultsDiv.innerHTML = "Analyzing...";
+
+            try {
+                const response = await fetch("/api/analyze", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ code: contractCode })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.analysis_results && data.analysis_results.length > 0) {
+                        let html = "<h4>Analysis Results:</h4><ul>";
+                        data.analysis_results.forEach(result => {
+                            html += `<li><strong>${result.vulnerability}</strong>: ${result.description} (Severity: ${result.severity})</li>`;
+                        });
+                        html += "</ul>";
+                        resultsDiv.innerHTML = html;
+                    } else {
+                        resultsDiv.innerHTML = "<p>No vulnerabilities detected.</p>";
+                    }
+                } else {
+                    resultsDiv.innerHTML = `<p>Error: ${data.error || 'Unknown error'}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>Error connecting to the analysis service: ${error.message}</p>`;
+                console.error("Error during API call:", error);
+            }
+        });
     </script>
 </body>
 </html>
+

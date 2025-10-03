@@ -1,6 +1,11 @@
 # Blockchain Security Analyzer
 
+![Hero Image](hero-image.png)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+
+---
 
 ## English
 
@@ -178,7 +183,7 @@ Para iniciar o servidor Flask, execute:
 python3 src/app.py
 ```
 
-O servidor estará disponível em `http://127.0.0.1:5000/`.
+The server will be available at `http://127.0.0.1:5000/`.
 
 ### Endpoints da API
 
@@ -193,7 +198,7 @@ O servidor estará disponível em `http://127.0.0.1:5000/`.
     http://127.0.0.1:5000/api/analyze
     ```
 
-## Estrutura do Projeto
+### Estrutura do Projeto
 
 ```
 Blockchain-Security-Analyzer/

@@ -23,6 +23,8 @@ body {
     color: var(--text-color);
     background-color: var(--bg-color);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
@@ -48,6 +50,9 @@ nav {
     background-color: var(--secondary-color);
     padding: 0.7rem 0;
     box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 nav ul {
@@ -68,6 +73,8 @@ nav ul li a {
     text-decoration: none;
     font-weight: 400;
     transition: color 0.3s ease;
+    padding: 5px 0;
+    display: block;
 }
 
 nav ul li a:hover {
@@ -81,6 +88,10 @@ nav ul li a:hover {
     padding: 100px 20px;
     position: relative;
     margin-bottom: 30px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero::before {
@@ -90,23 +101,26 @@ nav ul li a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .hero-content {
     position: relative;
     z-index: 1;
+    max-width: 900px;
 }
 
 .hero h2 {
-    font-size: 3rem;
-    margin-bottom: 10px;
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     max-width: 800px;
     margin: 0 auto 30px auto;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 .btn {
@@ -116,11 +130,15 @@ nav ul li a:hover {
     text-decoration: none;
     border-radius: 5px;
     font-weight: 700;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 .btn:hover {
     background-color: #FFD740;
+    transform: translateY(-2px);
 }
 
 .section {
@@ -133,7 +151,7 @@ nav ul li a:hover {
 
 .section h3 {
     color: var(--primary-color);
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin-top: 0;
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 10px;
@@ -142,21 +160,79 @@ nav ul li a:hover {
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
 .feature-item {
     background-color: var(--bg-color);
-    padding: 20px;
+    padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
 }
 
 .feature-item h4 {
     color: var(--secondary-color);
     margin-top: 0;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    font-size: 0.95rem;
+}
+
+#usage-example textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    background-color: #fdfdfd;
+    resize: vertical;
+}
+
+#usage-example .analysis-results {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e8f5e9; /* Light green background */
+    border: 1px solid #c8e6c9;
+    border-radius: 5px;
+    color: #2e7d32; /* Dark green text */
+    font-family: 'Roboto Mono', monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#usage-example .analysis-results h4 {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+#usage-example .analysis-results ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#usage-example .analysis-results li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+#usage-example .analysis-results li::before {
+    content: '•';
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
 }
 
 footer {
@@ -171,17 +247,28 @@ footer {
 footer a {
     color: var(--accent-color);
     text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #FFD740;
 }
 
 @media (max-width: 768px) {
     .hero h2 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
     }
     .hero p {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
     nav ul li {
         margin: 5px 10px;
+    }
+    .section {
+        padding: 30px;
+    }
+    .features-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -190,10 +277,19 @@ footer a {
         font-size: 2rem;
     }
     .hero h2 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+    }
+    .hero p {
+        font-size: 1rem;
     }
     .section {
         padding: 20px;
+    }
+    nav ul {
+        flex-direction: column;
+    }
+    nav ul li {
+        margin: 5px 0;
     }
 }
 

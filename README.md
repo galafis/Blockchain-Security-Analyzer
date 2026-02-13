@@ -1,318 +1,200 @@
-# 🤖 Blockchain Security Analyzer
+# Blockchain-Security-Analyzer
 
-> Professional project by Gabriel Demetrios Lafis
+Analisador de seguranca de contratos inteligentes Solidity usando deteccao de padroes via regex. API Flask com 4 verificacoes de vulnerabilidade.
 
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg)](https://img.shields.io/badge/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://img.shields.io/badge/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+Solidity smart contract security analyzer using regex-based pattern detection. Flask API with 4 vulnerability checks.
 
-[English](#english) | [Português](#português)
+---
+
+[Portugues](#portugues) | [English](#english)
+
+---
+
+## Portugues
+
+### Descricao
+
+Aplicacao Flask simples (~90 linhas de Python, 1 modulo) que analisa codigo-fonte de contratos inteligentes Solidity em busca de padroes de vulnerabilidade usando expressoes regulares. Nao utiliza machine learning, IA, banco de dados, autenticacao, criptografia ou containerizacao.
+
+### O que faz
+
+- API Flask com 3 rotas
+- Analise estatica baseada em regex para contratos Solidity
+- Detecta 4 padroes de vulnerabilidade:
+  - **Reentrancy** (uso de call/send/transfer com value)
+  - **Integer Overflow/Underflow** (operacoes aritmeticas em tipos uint/int sem SafeMath)
+  - **Dependencia de Timestamp** (uso de block.timestamp)
+  - **Limite de Gas Hardcoded** (gas limits fixos no codigo)
+
+### O que NAO possui
+
+- Machine Learning / IA
+- Autenticacao (JWT ou outra)
+- Controle de acesso (RBAC)
+- Criptografia (AES-256 ou outra)
+- Audit logging
+- Rate limiting
+- CORS
+- ORM / Banco de dados
+- Containerizacao (Docker)
+
+### Arquitetura
+
+```mermaid
+graph TD
+    Client[Cliente HTTP] --> FlaskApp[Flask App - src/app.py]
+
+    FlaskApp --> R1["GET / — Informacoes do projeto"]
+    FlaskApp --> R2["GET /api/status — Status da API"]
+    FlaskApp --> R3["POST /api/analyze — Analisar contrato"]
+
+    R3 --> Analyzer["analyze_solidity_contract()"]
+
+    Analyzer --> V1["Reentrancy"]
+    Analyzer --> V2["Integer Overflow/Underflow"]
+    Analyzer --> V3["Dependencia de Timestamp"]
+    Analyzer --> V4["Limite de Gas Hardcoded"]
+```
+
+### Inicio rapido
+
+```bash
+git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
+cd Blockchain-Security-Analyzer
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python src/app.py
+```
+
+### Endpoints da API
+
+| Metodo | Rota | Descricao |
+|--------|------|-----------|
+| GET | `/` | Informacoes gerais do projeto |
+| GET | `/api/status` | Status da API |
+| POST | `/api/analyze` | Analisa contrato Solidity (enviar `{"code": "..."}` no corpo) |
+
+### Exemplo de uso
+
+```bash
+curl -X POST http://localhost:5000/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"code": "function withdraw() public { msg.sender.call{value: balance}(\"\"); }"}'
+```
+
+### Testes
+
+6 testes unitarios legitimos cobrindo todas as rotas e detectores de vulnerabilidade:
+
+```bash
+python -m pytest tests/test_app.py -v
+```
+
+### Stack tecnologica
+
+| Tecnologia | Papel |
+|------------|-------|
+| Python | Linguagem principal |
+| Flask | Framework web (API) |
 
 ---
 
 ## English
 
-### 🎯 Overview
+### Description
 
-**Blockchain Security Analyzer** is a production-grade Python application complemented by CSS, HTML, JavaScript, R that showcases modern software engineering practices including clean architecture, comprehensive testing, containerized deployment, and CI/CD readiness.
+Simple Flask application (~90 lines of Python, 1 module) that analyzes Solidity smart contract source code for vulnerability patterns using regular expressions. No machine learning, AI, database, authentication, encryption, or containerization.
 
-The codebase comprises **938 lines** of source code organized across **6 modules**, following industry best practices for maintainability, scalability, and code quality.
+### What it does
 
-### ✨ Key Features
+- Flask API with 3 routes
+- Regex-based static analysis for Solidity contracts
+- Detects 4 vulnerability patterns:
+  - **Reentrancy** (call/send/transfer with value)
+  - **Integer Overflow/Underflow** (arithmetic on uint/int types without SafeMath)
+  - **Timestamp Dependency** (block.timestamp usage)
+  - **Hardcoded Gas Limit** (fixed gas limits in code)
 
-- **🤖 ML Pipeline**: End-to-end machine learning workflow from data to deployment
-- **🔬 Feature Engineering**: Automated feature extraction and transformation
-- **📊 Model Evaluation**: Comprehensive metrics and cross-validation
-- **🚀 Model Serving**: Production-ready prediction API
-- **🔒 Authentication**: JWT-based authentication with token refresh
-- **🛡️ Authorization**: Role-based access control (RBAC)
-- **🔐 Encryption**: AES-256 encryption for sensitive data
-- **📝 Audit Logging**: Complete audit trail for all operations
+### What it does NOT have
 
-### 🏗️ Architecture
+- Machine Learning / AI
+- Authentication (JWT or otherwise)
+- Access control (RBAC)
+- Encryption (AES-256 or otherwise)
+- Audit logging
+- Rate limiting
+- CORS
+- ORM / Database
+- Containerization (Docker)
+
+### Architecture
 
 ```mermaid
-graph TB
-    subgraph Core["🏗️ Core"]
-        A[Main Module]
-        B[Business Logic]
-        C[Data Processing]
-    end
-    
-    subgraph Support["🔧 Support"]
-        D[Configuration]
-        E[Utilities]
-        F[Tests]
-    end
-    
-    A --> B --> C
-    D --> A
-    E --> B
-    F -.-> B
-    
-    style Core fill:#e1f5fe
-    style Support fill:#f3e5f5
+graph TD
+    Client[HTTP Client] --> FlaskApp[Flask App - src/app.py]
+
+    FlaskApp --> R1["GET / — Project info"]
+    FlaskApp --> R2["GET /api/status — API status"]
+    FlaskApp --> R3["POST /api/analyze — Analyze contract"]
+
+    R3 --> Analyzer["analyze_solidity_contract()"]
+
+    Analyzer --> V1["Reentrancy"]
+    Analyzer --> V2["Integer Overflow/Underflow"]
+    Analyzer --> V3["Timestamp Dependency"]
+    Analyzer --> V4["Hardcoded Gas Limit"]
 ```
 
-### 🚀 Quick Start
-
-#### Prerequisites
-
-- Python 3.12+
-- pip (Python package manager)
-
-#### Installation
+### Quick start
 
 ```bash
-# Clone the repository
 git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
 cd Blockchain-Security-Analyzer
-
-# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-```
-
-#### Running
-
-```bash
-# Run the application
 python src/app.py
 ```
 
-### 🧪 Testing
+### API Endpoints
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/` | Project information |
+| GET | `/api/status` | API status |
+| POST | `/api/analyze` | Analyze Solidity contract (send `{"code": "..."}` in body) |
+
+### Usage example
 
 ```bash
-# Run all tests
-pytest
-
-# Run with coverage report
-pytest --cov --cov-report=html
-
-# Run specific test module
-pytest tests/test_main.py -v
-
-# Run with detailed output
-pytest -v --tb=short
+curl -X POST http://localhost:5000/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"code": "function withdraw() public { msg.sender.call{value: balance}(\"\"); }"}'
 ```
 
-### 📁 Project Structure
+### Tests
 
-```
-Blockchain-Security-Analyzer/
-├── docs/          # Documentation
-├── src/          # Source code
-│   ├── analytics.R
-│   ├── app.js
-│   ├── app.py
-│   ├── package.json
-│   └── requirements.txt
-├── tests/         # Test suite
-│   └── test_app.py
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── Dockerfile
-├── LICENSE
-├── README.md
-└── audit_findings.md
+6 legitimate unit tests covering all routes and vulnerability detectors:
+
+```bash
+python -m pytest tests/test_app.py -v
 ```
 
-### 🔒 Security Considerations
+### Tech stack
 
-| Feature | Implementation |
-|---------|---------------|
-| **Authentication** | JWT tokens with configurable expiration |
-| **Authorization** | Role-based access control (RBAC) |
-| **Input Validation** | Schema-based validation on all endpoints |
-| **Rate Limiting** | Configurable request throttling |
-| **Data Encryption** | AES-256 for sensitive data at rest |
-| **SQL Injection** | ORM-based queries prevent injection |
-| **CORS** | Configurable CORS policies |
-| **Audit Logging** | Complete request/response audit trail |
-
-> ⚠️ **Production Deployment**: Always configure proper SSL/TLS, rotate secrets regularly, and follow the principle of least privilege.
-
-### 🛠️ Tech Stack
-
-| Technology | Description | Role |
-|------------|-------------|------|
-| **Python** | Core Language | Primary |
-| **Docker** | Containerization platform | Framework |
-| HTML | 1 files | Supporting |
-| CSS | 1 files | Supporting |
-| R | 1 files | Supporting |
-| JavaScript | 1 files | Supporting |
-
-### 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### 👤 Author
-
-**Gabriel Demetrios Lafis**
-- GitHub: [@galafis](https://github.com/galafis)
-- LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-demetrios-lafis)
+| Technology | Role |
+|------------|------|
+| Python | Primary language |
+| Flask | Web framework (API) |
 
 ---
 
-## Português
+## License
 
-### 🎯 Visão Geral
+MIT - see [LICENSE](LICENSE).
 
-**Blockchain Security Analyzer** é uma aplicação Python de nível profissional, complementada por CSS, HTML, JavaScript, R que demonstra práticas modernas de engenharia de software, incluindo arquitetura limpa, testes abrangentes, implantação containerizada e prontidão para CI/CD.
-
-A base de código compreende **938 linhas** de código-fonte organizadas em **6 módulos**, seguindo as melhores práticas do setor para manutenibilidade, escalabilidade e qualidade de código.
-
-### ✨ Funcionalidades Principais
-
-- **🤖 ML Pipeline**: End-to-end machine learning workflow from data to deployment
-- **🔬 Feature Engineering**: Automated feature extraction and transformation
-- **📊 Model Evaluation**: Comprehensive metrics and cross-validation
-- **🚀 Model Serving**: Production-ready prediction API
-- **🔒 Authentication**: JWT-based authentication with token refresh
-- **🛡️ Authorization**: Role-based access control (RBAC)
-- **🔐 Encryption**: AES-256 encryption for sensitive data
-- **📝 Audit Logging**: Complete audit trail for all operations
-
-### 🏗️ Arquitetura
-
-```mermaid
-graph TB
-    subgraph Core["🏗️ Core"]
-        A[Main Module]
-        B[Business Logic]
-        C[Data Processing]
-    end
-    
-    subgraph Support["🔧 Support"]
-        D[Configuration]
-        E[Utilities]
-        F[Tests]
-    end
-    
-    A --> B --> C
-    D --> A
-    E --> B
-    F -.-> B
-    
-    style Core fill:#e1f5fe
-    style Support fill:#f3e5f5
-```
-
-### 🚀 Início Rápido
-
-#### Prerequisites
-
-- Python 3.12+
-- pip (Python package manager)
-
-#### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
-cd Blockchain-Security-Analyzer
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-#### Running
-
-```bash
-# Run the application
-python src/app.py
-```
-
-### 🧪 Testing
-
-```bash
-# Run all tests
-pytest
-
-# Run with coverage report
-pytest --cov --cov-report=html
-
-# Run specific test module
-pytest tests/test_main.py -v
-
-# Run with detailed output
-pytest -v --tb=short
-```
-
-### 📁 Estrutura do Projeto
-
-```
-Blockchain-Security-Analyzer/
-├── docs/          # Documentation
-├── src/          # Source code
-│   ├── analytics.R
-│   ├── app.js
-│   ├── app.py
-│   ├── package.json
-│   └── requirements.txt
-├── tests/         # Test suite
-│   └── test_app.py
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── Dockerfile
-├── LICENSE
-├── README.md
-└── audit_findings.md
-```
-
-### 🔒 Security Considerations
-
-| Feature | Implementation |
-|---------|---------------|
-| **Authentication** | JWT tokens with configurable expiration |
-| **Authorization** | Role-based access control (RBAC) |
-| **Input Validation** | Schema-based validation on all endpoints |
-| **Rate Limiting** | Configurable request throttling |
-| **Data Encryption** | AES-256 for sensitive data at rest |
-| **SQL Injection** | ORM-based queries prevent injection |
-| **CORS** | Configurable CORS policies |
-| **Audit Logging** | Complete request/response audit trail |
-
-> ⚠️ **Production Deployment**: Always configure proper SSL/TLS, rotate secrets regularly, and follow the principle of least privilege.
-
-### 🛠️ Stack Tecnológica
-
-| Tecnologia | Descrição | Papel |
-|------------|-----------|-------|
-| **Python** | Core Language | Primary |
-| **Docker** | Containerization platform | Framework |
-| HTML | 1 files | Supporting |
-| CSS | 1 files | Supporting |
-| R | 1 files | Supporting |
-| JavaScript | 1 files | Supporting |
-
-### 🤝 Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para enviar um Pull Request.
-
-### 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-### 👤 Autor
+## Author
 
 **Gabriel Demetrios Lafis**
 - GitHub: [@galafis](https://github.com/galafis)

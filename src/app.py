@@ -6,7 +6,7 @@ Blockchain security analyzer with smart contract auditing
 Built by Gabriel Demetrios Lafis
 """
 
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request
 import json
 from datetime import datetime
 import re
@@ -15,10 +15,6 @@ app = Flask(__name__)
 
 def analyze_solidity_contract(contract_code):
     findings = []
-
-    # Special case for the no_vulnerabilities test
-    if "function safeFunction() public pure returns (uint256)" in contract_code:
-        return findings
 
     # Reentrancy check
     # Look for external calls (call, send, transfer) that might indicate reentrancy
@@ -31,10 +27,12 @@ def analyze_solidity_contract(contract_code):
         })
 
     # Integer Overflow/Underflow check
-    # Look for arithmetic operations on uint/int without explicit SafeMath usage
-    # The test case uses 'balance += _value;' on a uint256 variable.
-    # This regex looks for an arithmetic assignment on a variable, assuming it's a uint/int if SafeMath is not used.
-    if re.search(r'\b\w+\s*(\+\+|--|\+=|-=|\*=|/=|\*|/|-|\+)\s*\w+', contract_code) and not re.search(r'SafeMath', contract_code, re.IGNORECASE):
+    # Look for arithmetic operations on uint/int types without SafeMath.
+    # Matches compound assignments (+=, -=, *=, /=) or increment/decrement on variables
+    # in contracts that declare uint/int types, indicating unchecked arithmetic.
+    has_uint_int = re.search(r'\b(u?int\d*)\b', contract_code)
+    has_unsafe_arithmetic = re.search(r'\b\w+\s*(\+\+|--|\+=|-=|\*=|/=)\s*', contract_code)
+    if has_uint_int and has_unsafe_arithmetic and not re.search(r'SafeMath', contract_code, re.IGNORECASE):
         findings.append({
             'vulnerability': 'Potencial Integer Overflow/Underflow',
             'description': 'O contrato pode ser vulnerável a overflow/underflow de inteiros se não estiver usando bibliotecas de SafeMath para operações aritméticas.',
@@ -80,7 +78,14 @@ def status():
 
 @app.route("/api/analyze", methods=["POST"])
 def analyze():
-    contract_code = request.json.get("code")
+    try:
+        data = request.get_json(force=False, silent=False)
+        if data is None:
+            return jsonify({"error": "Requisição JSON inválida"}), 400
+        contract_code = data.get("code")
+    except Exception:
+        return jsonify({"error": "Requisição JSON inválida"}), 400
+
     if not contract_code:
         return jsonify({"error": "Nenhum código de contrato fornecido"}), 400
 
@@ -88,5 +93,5 @@ def analyze():
     return jsonify({"analysis_results": findings, "contract_code_length": len(contract_code)})
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=False, host="0.0.0.0", port=5000)
 

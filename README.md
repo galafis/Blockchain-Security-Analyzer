@@ -1,5 +1,15 @@
 # Blockchain-Security-Analyzer
 
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+</div>
+
+
 Analisador de seguranca de contratos inteligentes Solidity usando deteccao de padroes via regex. API Flask com 4 verificacoes de vulnerabilidade.
 
 Solidity smart contract security analyzer using regex-based pattern detection. Flask API with 4 vulnerability checks.

@@ -1,0 +1,48 @@
+{
+  "synthetic": true,
+  "classification": "review_required",
+  "findings": [
+    {
+      "rule_id": "arithmetic-review",
+      "vulnerability": "Potencial Integer Overflow/Underflow",
+      "severity": "Medium",
+      "classification": "review_required",
+      "description": "Revisar aritmética no contexto do compilador e de blocos unchecked. Solidity 0.8+ verifica a aritmética comum por padrão.",
+      "description_en": "Review arithmetic in its compiler and unchecked-block context. Solidity 0.8+ checks ordinary arithmetic by default.",
+      "description_pt": "Revisar aritmética no contexto do compilador e de blocos unchecked. Solidity 0.8+ verifica a aritmética comum por padrão.",
+      "line": 8,
+      "column": 9,
+      "start": 213,
+      "end": 221,
+      "evidence": "count +="
+    },
+    {
+      "rule_id": "timestamp-review",
+      "vulnerability": "Potencial Dependência de Timestamp",
+      "severity": "Low",
+      "classification": "review_required",
+      "description": "Revisar regras de negócio dependentes de tempo e suas condições de limite.",
+      "description_en": "Review time-dependent business rules and boundary conditions.",
+      "description_pt": "Revisar regras de negócio dependentes de tempo e suas condições de limite.",
+      "line": 9,
+      "column": 13,
+      "start": 237,
+      "end": 252,
+      "evidence": "block.timestamp"
+    },
+    {
+      "rule_id": "arithmetic-review",
+      "vulnerability": "Potencial Integer Overflow/Underflow",
+      "severity": "Medium",
+      "classification": "review_required",
+      "description": "Revisar aritmética no contexto do compilador e de blocos unchecked. Solidity 0.8+ verifica a aritmética comum por padrão.",
+      "description_en": "Review arithmetic in its compiler and unchecked-block context. Solidity 0.8+ checks ordinary arithmetic by default.",
+      "description_pt": "Revisar aritmética no contexto do compilador e de blocos unchecked. Solidity 0.8+ verifica a aritmética comum por padrão.",
+      "line": 10,
+      "column": 13,
+      "start": 281,
+      "end": 289,
+      "evidence": "count +="
+    }
+  ]
+}

@@ -1,212 +1,115 @@
-# Blockchain-Security-Analyzer
+# Solidity Source Review
 
-<div align="center">
+### Revisão de Código Solidity
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker)](Dockerfile)
+[![Validation](https://github.com/galafis/Blockchain-Security-Analyzer/actions/workflows/ci.yml/badge.svg)](https://github.com/galafis/Blockchain-Security-Analyzer/actions/workflows/ci.yml)
+[English](#english) · [Português](#portugues) · [Examples / Exemplos](examples/review_demo.py) · [Validation / Validação](docs/VALIDATION.md)
 
-</div>
+**Application security / Segurança de aplicações** · Working prototype / Protótipo funcional · Gabriel Demetrios Lafis
 
-
-Analisador de seguranca de contratos inteligentes Solidity usando deteccao de padroes via regex. API Flask com 4 verificacoes de vulnerabilidade.
-
-Solidity smart contract security analyzer using regex-based pattern detection. Flask API with 4 vulnerability checks.
-
----
-
-[Portugues](#portugues) | [English](#english)
-
----
-
-## Portugues
-
-### Descricao
-
-Aplicacao Flask simples (~90 linhas de Python, 1 modulo) que analisa codigo-fonte de contratos inteligentes Solidity em busca de padroes de vulnerabilidade usando expressoes regulares. Nao utiliza machine learning, IA, banco de dados, autenticacao, criptografia ou containerizacao.
-
-### O que faz
-
-- API Flask com 3 rotas
-- Analise estatica baseada em regex para contratos Solidity
-- Detecta 4 padroes de vulnerabilidade:
-  - **Reentrancy** (uso de call/send/transfer com value)
-  - **Integer Overflow/Underflow** (operacoes aritmeticas em tipos uint/int sem SafeMath)
-  - **Dependencia de Timestamp** (uso de block.timestamp)
-  - **Limite de Gas Hardcoded** (gas limits fixos no codigo)
-
-### O que NAO possui
-
-- Machine Learning / IA
-- Autenticacao (JWT ou outra)
-- Controle de acesso (RBAC)
-- Criptografia (AES-256 ou outra)
-- Audit logging
-- Rate limiting
-- CORS
-- ORM / Banco de dados
-- Containerizacao (Docker)
-
-### Arquitetura
-
-```mermaid
-graph TD
-    Client[Cliente HTTP] --> FlaskApp[Flask App - src/app.py]
-
-    FlaskApp --> R1["GET / — Informacoes do projeto"]
-    FlaskApp --> R2["GET /api/status — Status da API"]
-    FlaskApp --> R3["POST /api/analyze — Analisar contrato"]
-
-    R3 --> Analyzer["analyze_solidity_contract()"]
-
-    Analyzer --> V1["Reentrancy"]
-    Analyzer --> V2["Integer Overflow/Underflow"]
-    Analyzer --> V3["Dependencia de Timestamp"]
-    Analyzer --> V4["Limite de Gas Hardcoded"]
-```
-
-### Inicio rapido
-
-```bash
-git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
-cd Blockchain-Security-Analyzer
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-python src/app.py
-```
-
-### Endpoints da API
-
-| Metodo | Rota | Descricao |
-|--------|------|-----------|
-| GET | `/` | Informacoes gerais do projeto |
-| GET | `/api/status` | Status da API |
-| POST | `/api/analyze` | Analisa contrato Solidity (enviar `{"code": "..."}` no corpo) |
-
-### Exemplo de uso
-
-```bash
-curl -X POST http://localhost:5000/api/analyze \
-  -H "Content-Type: application/json" \
-  -d '{"code": "function withdraw() public { msg.sender.call{value: balance}(\"\"); }"}'
-```
-
-### Testes
-
-6 testes unitarios legitimos cobrindo todas as rotas e detectores de vulnerabilidade:
-
-```bash
-python -m pytest tests/test_app.py -v
-```
-
-### Stack tecnologica
-
-| Tecnologia | Papel |
-|------------|-------|
-| Python | Linguagem principal |
-| Flask | Framework web (API) |
-
----
+<a id="english"></a>
 
 ## English
 
-### Description
+A lightweight source scanner that identifies review points in Solidity code and returns bilingual explanations with exact source locations.
 
-Simple Flask application (~90 lines of Python, 1 module) that analyzes Solidity smart contract source code for vulnerability patterns using regular expressions. No machine learning, AI, database, authentication, encryption, or containerization.
+### What works
 
-### What it does
+- Masks comments and string literals while preserving character offsets and line breaks.
+- Reports each matched occurrence with rule ID, line, column and source evidence.
+- Offers a Flask JSON endpoint with source-type and size validation.
 
-- Flask API with 3 routes
-- Regex-based static analysis for Solidity contracts
-- Detects 4 vulnerability patterns:
-  - **Reentrancy** (call/send/transfer with value)
-  - **Integer Overflow/Underflow** (arithmetic on uint/int types without SafeMath)
-  - **Timestamp Dependency** (block.timestamp usage)
-  - **Hardcoded Gas Limit** (fixed gas limits in code)
+### Reproducible walkthrough
 
-### What it does NOT have
+Requirements: Python 3.12 / Python 3.12.
 
-- Machine Learning / AI
-- Authentication (JWT or otherwise)
-- Access control (RBAC)
-- Encryption (AES-256 or otherwise)
-- Audit logging
-- Rate limiting
-- CORS
-- ORM / Database
-- Containerization (Docker)
+Run from the repository root. The validation environment installs the components exercised by the tests and documented example; optional integrations may need their separate dependencies.
 
-### Architecture
+```sh
+python -m venv .venv
+# Activate .venv for your shell / Ative .venv no seu terminal
+python -m pip install -r requirements-validation.txt
+python -m pytest -q
+python -m examples.review_demo
+```
+
+**Input contract / Contrato de entrada:** POST `/api/analyze` with / com `{ "code": "..." }`; 1–100000 source characters / caracteres.
+
+**Expected behavior / Comportamento esperado:** The synthetic Solidity example returns arithmetic and timestamp review points; each span maps back to the input source. / O exemplo Solidity fictício devolve pontos de revisão aritmética e temporal; cada intervalo corresponde ao código de entrada.
+
+### Architecture / Arquitetura
 
 ```mermaid
-graph TD
-    Client[HTTP Client] --> FlaskApp[Flask App - src/app.py]
-
-    FlaskApp --> R1["GET / — Project info"]
-    FlaskApp --> R2["GET /api/status — API status"]
-    FlaskApp --> R3["POST /api/analyze — Analyze contract"]
-
-    R3 --> Analyzer["analyze_solidity_contract()"]
-
-    Analyzer --> V1["Reentrancy"]
-    Analyzer --> V2["Integer Overflow/Underflow"]
-    Analyzer --> V3["Timestamp Dependency"]
-    Analyzer --> V4["Hardcoded Gas Limit"]
+flowchart LR
+    A["Solidity source / Código Solidity"]
+    B["Comment and string masking / Máscara de comentários e strings"]
+    C["Heuristic rules / Regras heurísticas"]
+    D["Bilingual located findings / Resultados bilíngues localizados"]
+    A --> B --> C --> D
 ```
 
-### Quick start
+The main path can be followed in [src/app.py](src/app.py). Examples call the actual implementation and include assertions; they are not pseudocode.
 
-```bash
-git clone https://github.com/galafis/Blockchain-Security-Analyzer.git
-cd Blockchain-Security-Analyzer
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-python src/app.py
+### Scope and assumptions
+
+Findings are review prompts, not confirmed vulnerabilities. No match does not establish safety. This scanner does not compile Solidity, resolve inheritance, inspect bytecode or prove exploitability. The legacy vulnerability field is retained for API compatibility; classification is review_required.
+
+### Changes verified in this review
+
+Reduced comment/string false positives, added occurrence-level evidence and explained arithmetic in its compiler context instead of treating absence of SafeMath as proof.
+
+<a id="portugues"></a>
+
+## Português
+
+Analisador leve que identifica pontos de revisão em código Solidity e devolve explicações bilíngues com localização exata no arquivo.
+
+### Funcionalidades disponíveis
+
+- Mascara comentários e strings preservando offsets de caracteres e quebras de linha.
+- Relata cada ocorrência com identificador de regra, linha, coluna e trecho de origem.
+- Oferece endpoint JSON Flask com validação do tipo e tamanho do código recebido.
+
+### Execução reproduzível
+
+Use os comandos da seção acima a partir da raiz do repositório. Requisitos: Python 3.12 / Python 3.12. O ambiente de validação instala os componentes exercitados pelos testes e pelo exemplo documentado; integrações opcionais podem exigir dependências próprias.
+
+O fluxo principal está em [src/app.py](src/app.py). Os exemplos usam a implementação real e verificam resultados com asserções; não são pseudocódigo. O diagrama apresenta os mesmos passos nos dois idiomas.
+
+### Escopo e premissas
+
+Resultados orientam revisão e não são vulnerabilidades confirmadas. Ausência de correspondências não comprova segurança. O analisador não compila Solidity, resolve herança, inspeciona bytecode ou prova exploração. O campo legado vulnerability foi preservado por compatibilidade; classification indica review_required.
+
+### Melhorias verificadas nesta revisão
+
+Reduzidos falsos positivos em comentários e strings, adicionada evidência por ocorrência e explicada aritmética no contexto do compilador, sem tratar ausência de SafeMath como prova.
+
+### Run the application / Executar a aplicação
+
+```sh
+python -m src.app
 ```
 
-### API Endpoints
+## Repository guide / Guia do repositório
 
-| Method | Route | Description |
-|--------|-------|-------------|
-| GET | `/` | Project information |
-| GET | `/api/status` | API status |
-| POST | `/api/analyze` | Analyze Solidity contract (send `{"code": "..."}` in body) |
+| Location / Local                                            | Purpose / Finalidade                                                   |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------- |
+| [Implementation / Implementação](src/app.py)                | Main domain behavior / Comportamento principal do domínio              |
+| [Example / Exemplo](examples/review_demo.py)                | Executable scenario / Cenário executável                               |
+| [Tests / Testes](tests/)                                    | Normal behavior and failure cases / Fluxos válidos e casos de falha    |
+| [Validation notes / Notas de validação](docs/VALIDATION.md) | Corrections, evidence and boundaries / Correções, evidências e limites |
+| [Workflow / Automação](.github/workflows/ci.yml)            | Automated checks / Verificações automatizadas                          |
 
-### Usage example
+- [Executed example result / Resultado executado do exemplo](examples/expected.json)
 
-```bash
-curl -X POST http://localhost:5000/api/analyze \
-  -H "Content-Type: application/json" \
-  -d '{"code": "function withdraw() public { msg.sender.call{value: balance}(\"\"); }"}'
-```
+## Development / Desenvolvimento
 
-### Tests
+EN: When changing behavior, update the contract, the worked example and a regression test together. Keep synthetic fixtures separate from real data. A passing test suite demonstrates the listed software behaviors; it does not certify a deployment or domain outcome.
 
-6 legitimate unit tests covering all routes and vulnerability detectors:
+PT: Ao alterar comportamento, atualize em conjunto o contrato, o exemplo e um teste de regressão. Separe amostras fictícias de dados reais. Testes aprovados demonstram os comportamentos de software listados; não certificam implantação nem resultado no domínio.
 
-```bash
-python -m pytest tests/test_app.py -v
-```
+Author / Autor: [Gabriel Demetrios Lafis](https://github.com/galafis) · [Institutional contact / Contato institucional](mailto:gabrieldemetrioslafis@usp.br)
 
-### Tech stack
+License / Licença: [repository license](LICENSE).
 
-| Technology | Role |
-|------------|------|
-| Python | Primary language |
-| Flask | Web framework (API) |
-
----
-
-## License
-
-MIT - see [LICENSE](LICENSE).
-
-## Author
-
-**Gabriel Demetrios Lafis**
-- GitHub: [@galafis](https://github.com/galafis)
-- LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-demetrios-lafis)
+Reference / Referência: [Solidity control structures and checked arithmetic](https://docs.soliditylang.org/en/latest/control-structures.html#checked-or-unchecked-arithmetic).

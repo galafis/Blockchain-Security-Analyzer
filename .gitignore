@@ -20,3 +20,8 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+node_modules/

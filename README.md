@@ -1,11 +1,28 @@
 # Solidity Source Review
 
-### Revisão de Código Solidity
+**Source review · Revisão de código**
 
-[![Validation](https://github.com/galafis/Blockchain-Security-Analyzer/actions/workflows/ci.yml/badge.svg)](https://github.com/galafis/Blockchain-Security-Analyzer/actions/workflows/ci.yml)
-[English](#english) · [Português](#portugues) · [Examples / Exemplos](examples/review_demo.py) · [Validation / Validação](docs/VALIDATION.md)
+<p align="center"><img src="assets/project-overview.svg" width="960" alt="Workflow illustration: Solidity source → Location-aware rules → Review findings"></p>
 
-**Application security / Segurança de aplicações** · Working prototype / Protótipo funcional · Gabriel Demetrios Lafis
+[![Checks](https://github.com/galafis/Blockchain-Security-Analyzer/actions/workflows/ci.yml/badge.svg)](https://github.com/galafis/Blockchain-Security-Analyzer/actions/workflows/ci.yml)
+[English](#english) · [Português](#portugues) · [Guided tour / Visita guiada](docs/SHOWCASE.md) · [Validation / Validação](docs/VALIDATION.md)
+
+> **EN:** Can each review finding be traced to its exact source span?<br>
+> **PT:** Cada achado pode ser rastreado até seu intervalo no código?
+
+## Start here · Comece aqui
+
+| Goal · Objetivo | Where to go · Por onde começar |
+| --- | --- |
+| Understand a real example · Entender um exemplo concreto | [Walkthrough / Roteiro](examples/review_demo.py) |
+| Reproduce and compare · Reproduzir e comparar | [Evidence tour / Visita às evidências](docs/SHOWCASE.md) |
+| Inspect the checks · Inspecionar as verificações | [Validation record / Registro de validação](docs/VALIDATION.md) · [CI](https://github.com/galafis/Blockchain-Security-Analyzer/actions/workflows/ci.yml) |
+
+**Example result · Resultado do exemplo:** The synthetic Solidity example returns arithmetic and timestamp review points; each span maps back to the input source. / O exemplo Solidity fictício devolve pontos de revisão aritmética e temporal; cada intervalo corresponde ao código de entrada.
+
+**Try a comparison · Experimente uma comparação**<br>
+**EN:** Compare arithmetic in code with similar text inside comments or strings; review compiler context.<br>
+**PT:** Compare aritmética no código com texto similar em comentários ou strings; revise o contexto do compilador.
 
 <a id="english"></a>
 
